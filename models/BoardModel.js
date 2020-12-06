@@ -17,6 +17,10 @@ const boardSchema = new mongoose.Schema({
     images:{
         type: Object,
         required: true
+    },
+    task: {
+        type: Array,
+        default: []
     }
 }, {
     timestamps: true //important
