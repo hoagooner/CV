@@ -1,37 +1,30 @@
-import React, {useContext} from 'react'
-import {Link} from 'react-router-dom'
-import {GlobalState} from '../../../../GlobalState'
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { GlobalState } from '../../../../GlobalState'
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
-function BtnRender({product, deleteProduct}) {
+
+function BtnRender({ board, deleteBoard }) {
     const state = useContext(GlobalState)
-    const [isAdmin] = state.userAPI.isAdmin
     const addCart = state.userAPI.addCart
+    // const user = typeof cookies.get('user') === "undefined" ? '' : cookies.get('user')
 
-    
     return (
         <div className="row_btn">
             {
-                isAdmin ? 
                 <>
-                    <Link id="btn_buy" to="#!" 
-                    onClick={() =>deleteProduct(product._id, product.images.public_id)}>
+                    <Link id="btn_buy" to="#!"
+                        onClick={() => deleteBoard(board._id, board.images.public_id)}>
                         Delete
-                    </Link>
-                    <Link id="btn_view" to={`/edit_product/${product._id}`}>
-                        Edit
-                    </Link>
-                </>
-                : <>
-                    <Link id="btn_buy" to="#!" onClick={() => addCart(product)}>
-                        Buy
-                    </Link>
-                    <Link id="btn_view" to={`/detail/${product._id}`}>
+                   </Link>
+                    <Link id="btn_view" to={`/board/${board._id}`}>
                         View
-                    </Link>
+                   </Link>
                 </>
             }
-                
-        </div>
+
+        </div >
     )
 }
 

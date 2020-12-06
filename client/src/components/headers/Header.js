@@ -29,7 +29,7 @@ function Header() {
     const createBoard = () => {
         return (
             <>
-                <li><Link to="/create_board">Create Board</Link></li>
+                <li><Link to="/create_board" style={{ textDecoration: 'none' }}>Create Board</Link></li>
             </>
         )
     }
@@ -37,15 +37,15 @@ function Header() {
     const loggedRouter = () => {
         return (
             <>
-                <li><Link to="/" onClick={logoutUser}>Logout</Link></li>
+                <li><Link to="/" onClick={logoutUser} style={{ textDecoration: 'none' }}>Logout</Link></li>
             </>
         )
     }
 
 
-    const styleMenu = {
-        left: menu ? 0 : "-100%"
-    }
+    // const styleMenu = {
+    //     left: menu ? 0 : "-100%"
+    // }
 
     return (
         <header>
@@ -53,21 +53,21 @@ function Header() {
                 <img src={Menu} alt="" width="30" />
             </div>
 
-            <div className="logo">
+            <div className="logo" style={{float:"left"}}>
                 <h1>
-                    <Link to="/">{isAdmin ? 'Admin' : 'Task Tracker'}</Link>
+                    <Link to="/" style={{ textDecoration: 'none' }}>{isAdmin ? 'Admin' : 'Task Tracker'}</Link>
                 </h1>
             </div>
 
-            <ul style={styleMenu}>
+            <ul style={{float:"right",marginTop:"20px"}}>
 
-                <li>{isLogged ? 'Hi '+ cookies.get('user').name : ''}</li>
+                <li>{isLogged ? 'Hi '+ cookies.get('user') ? cookies.get('user').name : '' : ''}</li>
 
 
                 {isLogged && createBoard()}
 
                 {
-                    isLogged ? loggedRouter() : <li><Link to="/login">Login</Link></li>
+                    isLogged ? loggedRouter() : <li><Link to="/login" style={{ textDecoration: 'none' }}>Login</Link></li>
                 }
 
                 <li onClick={() => setMenu(!menu)}>

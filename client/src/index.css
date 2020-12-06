@@ -37,6 +37,9 @@ button{
 @import url("./components/headers/header.css");
 
 
+
+
+
 /* ------------- Login/Register ----------------- */
 @import url("./components/mainpages/auth/login.css");
 
@@ -46,8 +49,6 @@ button{
 
 
 @import url("./components/mainpages/board/board.css");
-
-
 
 
 /* ----------------- Responsive ------------------ */

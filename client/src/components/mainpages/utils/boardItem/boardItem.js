@@ -1,6 +1,7 @@
 import React from 'react'
+import BtnRender from './BtnRender'
 
-function BoardItem({ board }) {
+function BoardItem({ board, deleteBoard }) {
 
     return (
         <div className="product_card" style={{display:"inline-block"}}>
@@ -12,6 +13,8 @@ function BoardItem({ board }) {
                 <h2 title={board.title}>{board.title}</h2>
                 <p>{board.description}</p>
             </div>
+
+            <BtnRender board={board} deleteBoard={deleteBoard} />
         </div>
     )
 }

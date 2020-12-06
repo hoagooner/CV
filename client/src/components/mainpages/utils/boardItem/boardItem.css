@@ -34,7 +34,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
-    height: 70px;
+    /* height: 70px; */
     overflow: hidden;
     color: #323232;
 }

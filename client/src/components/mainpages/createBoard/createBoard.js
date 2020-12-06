@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import axios from 'axios'
 import { GlobalState } from '../../../GlobalState'
-import Loading from '../utils/loading/Loading'
 import { useHistory, useParams } from 'react-router-dom'
 import Cookies from 'universal-cookie';
 
@@ -17,7 +16,6 @@ function CreateBoard() {
     const state = useContext(GlobalState)
     const [board, setBoard] = useState(initialState)
     const [images, setImages] = useState(false)
-    const [loading, setLoading] = useState(false)
 
 
     const [isAdmin] = state.userAPI.isAdmin
@@ -62,11 +60,9 @@ function CreateBoard() {
             let formData = new FormData()
             formData.append('file', file)
 
-            setLoading(true)
             const res = await axios.post('/api/upload', formData, {
                 headers: { 'content-type': 'multipart/form-data', Authorization: token }
             })
-            setLoading(false)
             setImages(res.data)
 
         } catch (err) {
@@ -76,11 +72,9 @@ function CreateBoard() {
 
     const handleDestroy = async () => {
         try {
-            setLoading(true)
             await axios.post('/api/destroy', { public_id: images.public_id }, {
                 headers: { Authorization: token }
             })
-            setLoading(false)
             setImages(false)
         } catch (err) {
             alert(err.response.data.msg)
@@ -120,9 +114,9 @@ function CreateBoard() {
             <div className="upload">
                 <input type="file" name="file" id="file_up" onChange={handleUpload} />
                 {
-                    loading ? <div id="file_img"><Loading /></div>
+                    // loading ? <div id="file_img"><Loading /></div>
 
-                        : <div id="file_img" style={styleUpload}>
+                         <div id="file_img" style={styleUpload}>
                             <img src={images ? images.url : ''} alt="" />
                             <span onClick={handleDestroy}>X</span>
                         </div>

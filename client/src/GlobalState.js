@@ -3,12 +3,12 @@ import UserAPI from './api/UserAPI'
 import axios from 'axios'
 import BoardsAPI from './api/BoardsAPI'
 
+
 export const GlobalState = createContext()
 
 
 export const DataProvider = ({children}) =>{
 
-    BoardsAPI()
     const [token, setToken] = useState(false)
 
     useEffect(() =>{
@@ -30,7 +30,7 @@ export const DataProvider = ({children}) =>{
     const state = {
         token: [token, setToken],
         userAPI: UserAPI(token),
-        boardsAPI: BoardsAPI()
+        boardsAPI: BoardsAPI(),
     }
 
     return (

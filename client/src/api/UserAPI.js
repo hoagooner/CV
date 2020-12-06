@@ -15,16 +15,18 @@ function UserAPI(token) {
                     const res = await axios.get('/user/infor', {
                         headers: { Authorization: token }
                     })
-                 
+
+                    // if(!res){
+                    //  window.location = '/';
+                    // }
+
                     setIsLogged(true)
-                    // res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false)
                 } catch (err) {
                     alert(err.response.data.msg)
+                    // return window.location = '/login';
                 }
             }
-
             getUser()
-
         }
     }, [token])
 
