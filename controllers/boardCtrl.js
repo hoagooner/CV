@@ -2,6 +2,11 @@ const Boards = require('../models/BoardModel')
 
 
 const boardCtrl = {
+    getBoard: async (req, res) => {
+        Boards.findById(req.params.board_id)
+            .then(board => res.json(board))
+            .catch(err => res.status(400).json('Error: ' + err));
+    },
     getBoards: async (req, res) => {
         try {
 
@@ -47,7 +52,6 @@ const boardCtrl = {
     updateBoard: async (req, res) => {
         try {
             const { title, description, images } = req.body;
-            if (!images) return res.status(400).json({ msg: "No image upload" })
 
             await Boards.findOneAndUpdate({ _id: req.params.id }, {
                 title: title.toLowerCase(), description,images

@@ -9,7 +9,8 @@ const cookies = new Cookies();
 const initialState = {
     user_id: typeof cookies.get('user') === "undefined" ? '' : cookies.get('user')._id,
     title: '',
-    _id: ''
+    _id: '',
+    description: ''
 }
 
 function CreateBoard() {
@@ -110,42 +111,37 @@ function CreateBoard() {
         display: images ? "block" : "none"
     }
     return (
-        <div className="create_product">
-            <div className="upload">
+        <div className="row" style={{ marginTop: "50px" }}>
+            <div className="col-sm-4">
                 <input type="file" name="file" id="file_up" onChange={handleUpload} />
                 {
-                    // loading ? <div id="file_img"><Loading /></div>
-
-                         <div id="file_img" style={styleUpload}>
-                            <img src={images ? images.url : ''} alt="" />
-                            <span onClick={handleDestroy}>X</span>
-                        </div>
+                    <div id="file_img" style={styleUpload}>
+                        <img src={images ? images.url : ''} alt="" />
+                        <span onClick={handleDestroy}>X</span>
+                    </div>
                 }
-
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <div className="col-sm-8">
+                <form onSubmit={handleSubmit}>
+                    <div className="row" style={{margin:"20px"}}>
+                        <label htmlFor="title">Title</label>
+                        <input type="text" name="title" id="title" required
+                            class="form-control"
+                            value={board.title} onChange={handleChangeInput} />
+                    </div>
 
-                {/* <div className="row">
-                    <input type="text" name="user_id"
-                        value={cookies.get('user')._id} />
-                </div> */}
-
-                <div className="row">
-                   <label htmlFor="title">Title</label>
-                    <input type="text" name="title" id="title" required
-                        value={board.title} onChange={handleChangeInput} />
-                </div>
-           
-
-                <div className="row">
-                    <label htmlFor="description">Description</label>
-                    < textarea type="text" name="description" id="description" required
-                        value={board.description} rows="5" onChange={handleChangeInput} />
-        </div>
- 
-                 <button type="submit">{onEdit ? "Update" : "Create"}</button>
-            </form>
+                    <div className="row" style={{margin:"20px"}}>
+                        <label htmlFor="description">Description</label>
+                        < textarea type="text" name="description" id="description"
+                            required class="form-control"
+                            value={board.description} rows="5" onChange={handleChangeInput} />
+                    </div>
+                    <div className="row" style={{margin:"20px"}}>
+                        <button className="btn btn-primary" type="submit">{onEdit ? "Update" : "Create"}</button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }

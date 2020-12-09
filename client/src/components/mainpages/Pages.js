@@ -24,7 +24,10 @@ function Pages() {
             <Route path="/register" exact component={isLogged ? NotFound : Register} />
             <Route path="/create_board" exact component={isLogged ? CreateBoard : NotFound} />
             <Route path="/board/:id" exact component={BoardDetail} />
-            <Route path="/board/:id/create-task" exact component={CreateTask} />
+            <Route path="/board/:board_id/edit-task/:task_id" exact component={isLogged ? CreateTask : NotFound} />
+            <Route path="/edit-task/:task_id" exact component={isLogged ? CreateTask : NotFound} />
+            <Route path="/edit-board/:id" exact component={isLogged ? CreateBoard : NotFound} />
+            <Route path="/board/:board_id/create-task" exact component={isLogged ? CreateTask : NotFound} />
             <Route path="*" exact component={NotFound} />
         </Switch>
     )

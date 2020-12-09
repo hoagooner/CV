@@ -14,11 +14,11 @@ function BtnRender({ board, deleteBoard }) {
         <div className="row_btn">
             {
                 <>
-                    <Link id="btn_buy" to="#!"
+                    <Link  to="#!" className="btn btn-danger"
                         onClick={() => deleteBoard(board._id, board.images.public_id)}>
                         Delete
                    </Link>
-                    <Link id="btn_view" to={`/board/${board._id}`}>
+                    <Link className="btn btn-primary"  to={`/board/${board._id}`}>
                         View
                    </Link>
                 </>

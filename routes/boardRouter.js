@@ -7,6 +7,8 @@ router.route('/boards')
     .get(boardCtrl.getBoards)
     .post(auth, boardCtrl.createBoard)
 
+router.route('/board/:board_id')
+    .get(boardCtrl.getBoard)
 
 router.route('/boards/:id')
     .delete(auth, boardCtrl.deleteBoard)

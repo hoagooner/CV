@@ -43,7 +43,6 @@
     margin: 15px 0;
 }
 .filter_menu select, input{
-    border: 1px solid #ccc;
     outline: none;
     height: 40px;
     padding: 0 5px;

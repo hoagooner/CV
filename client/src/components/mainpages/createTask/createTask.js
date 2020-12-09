@@ -1,100 +1,3 @@
-// import React, { useState, useContext, useEffect } from 'react'
-// import axios from 'axios'
-// import { GlobalState } from '../../../GlobalState'
-// import { useParams } from 'react-router-dom'
-
-// const initialState = {
-//     board_id: '5fcc60913f71f727500d25db',
-//     title: '',
-//     description: '.',
-//     duration: '5',
-//     date: '2020/12/12'
-// }
-
-// function CreateTask() {
-//     const state = useContext(GlobalState)
-//     const [task, setTask] = useState(initialState)
-//     const [token] = state.token
-//     const param = useParams()
-//     const [onEdit, setOnEdit] = useState(false)
-//     // const [callback, setCallback] = state.tasksAPI.callback
-//     // useEffect(() => {
-//     //     if (param.id) {
-//     //         setOnEdit(true)
-//     //         tasks.forEach(task => {
-//     //             if (task._id === param.id) {
-//     //                 setTask(task)
-//     //             }
-//     //         })
-//     //     } else {
-//     //         setOnEdit(false)
-//     //         setTask(initialState)
-//     //     }
-//     // }, [param.id, tasks])
-
-//     const handleChangeInput = e => {
-//         const { name, value } = e.target
-//         setTask({ ...task, [name]: value })
-//     }
-
-//     const handleSubmit = async e => {
-//         e.preventDefault()
-//         try {
-
-//             if (onEdit) {
-//                 await axios.put(`/api/tasks/${task._id}`, { ...task }, {
-//                     headers: { Authorization: token }
-//                 })
-//             } else {
-//                 await axios.post('/api/tasks', { ...task }, {
-//                     headers: { Authorization: token }
-//                 })
-//             }
-//             // setCallback(!callback)
-//         } catch (err) {
-//             alert(err.response.data.msg)
-//         }
-//     }
-
-//     return (
-//         <div className="create_task">
-
-//             <form onSubmit={handleSubmit}>
-//                 <div className="row">
-//                     <input type="text" name="board_id" id="" value={param.id} required/>
-//                 </div>
-
-//                 <div className="row">
-//                     <input type="text" name="date" id="" value={task.date} required/>
-//                 </div>
-
-//                 <div className="row">
-//                     <label htmlFor="title">Title</label>
-//                     <input type="text" name="title" id="title" required
-//                         value={task.title} onChange={handleChangeInput} />
-//                 </div>
-
-//                 <div className="row">
-//                     <label htmlFor="description">Description</label>
-//                     <textarea type="text" name="description" id="description" required
-//                         value={task.description} rows="5" onChange={handleChangeInput} />
-//                 </div>
-
-//                 <div className="row">
-//                     <label htmlFor="durantion">duration</label>
-//                     <input type="text" name="duration" id="duration" required
-//                         value={task.duration} onChange={handleChangeInput} />
-//                 </div>
-
-//                 <button type="submit">{onEdit ? "Update" : "Create"}</button>
-//             </form>
-//         </div>
-//     )
-// }
-
-// export default CreateTask
-
-
 import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
@@ -116,30 +19,51 @@ export default class CreateTask extends Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            board_id: this.props.match.params.id,
+            board_id: this.props.match.params.board_id,
+            task_id: this.props.match.params.task_id,
+            username: '',
             title: '',
             description: '',
             duration: 0,
             date: new Date(),
-            users: []
+            users: [],
+            onEdit: false
         }
     }
 
-    // componentDidMount() {
-    //     axios.get('http://localhost:5000/users/')
-    //         .then(response => {
-    //             if (response.data.length > 0) {
-    //                 this.setState({
-    //                     users: response.data.map(user => user.username),
-    //                     username: response.data[0].username
-    //                 })
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
+    componentDidMount() {
 
-    // }
+        console.log(this.props.match.params.task_id)
+        if (this.props.match.params.task_id) {
+            axios.get('http://localhost:5000/api/task/' + this.props.match.params.task_id)
+                .then(response => {
+                    this.setState({
+                        username: response.data.username,
+                        title: response.data.title,
+                        description: response.data.description,
+                        duration: response.data.duration,
+                        date: new Date(response.data.date)
+                    })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        }
+
+        axios.get('http://localhost:5000/users/')
+            .then(response => {
+                if (response.data.length > 0) {
+                    this.setState({
+                        users: response.data.map(user => user.username),
+                        username: response.data[0].username
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
 
     onChangeUsername(e) {
         this.setState({
@@ -178,6 +102,7 @@ export default class CreateTask extends Component {
 
         const task = {
             board_id: this.state.board_id,
+            task_id: this.state.task_id,
             username: this.state.username,
             title: this.state.title,
             description: this.state.description,
@@ -187,9 +112,14 @@ export default class CreateTask extends Component {
 
         console.log(task);
 
-        
-        axios.post('http://localhost:5000/api/tasks', task)
-            .then(res => console.log(res.data));
+        if (this.state.task_id) {
+            axios.put('http://localhost:5000/api/task/' + this.state.task_id, task)
+                .then(res => console.log(res.data));
+        } else {
+            axios.post('http://localhost:5000/api/tasks', task)
+                .then(res => console.log(res.data));
+        }
+
 
         window.location = `/board/${this.state.board_id}`;
     }
@@ -197,71 +127,102 @@ export default class CreateTask extends Component {
     render() {
         return (
             <div>
-                <h3>Create New Task Log</h3>
-                <form onSubmit={this.onSubmit}>
+                <h3 style={{ marginTop: "50px", marginBottom: "50px" }}>Create New Task</h3>
+                <div className="container">
+                    <form onSubmit={this.onSubmit}>
+                        <input type="hidden" value={this.state.board_id} />
+                        <input type="hidden" value={this.props.match.params.task_id} />
 
-                    <input type="text"
-                        required
-                        value={this.state.board_id}
-                    />
-                    <div className="form-group">
-                        <label>Username: </label>
-                        <select ref="userInput"
-                            className="form-control"
-                            value={this.state.username}
-                            onChange={this.onChangeUsername}>
-                            {
-                                this.state.users.map(function (user) {
-                                    return <option
-                                        key={user}
-                                        value={user}>{user}
-                                    </option>;
-                                })
-                            }
-                        </select>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Title: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.title}
-                            onChange={this.onChangeTitle}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Description: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.description}
-                            onChange={this.onChangeDescription}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Duration (in minutes): </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={this.state.duration}
-                            onChange={this.onChangeDuration}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Date: </label>
-                        <div>
-                            <DatePicker
-                                selected={this.state.date}
-                                onChange={this.onChangeDate}
-                            />
+                        <div className="row">
+                            <div className="col-sm-6">
+                                <div className="form-group">
+                                    <label>Assignment to: </label>
+                                    <select ref="userInput"
+                                        className="form-control"
+                                        value={this.state.username}
+                                        onChange={this.onChangeUsername}>
+                                        {
+                                            this.state.users.map(function (user) {
+                                                return <option
+                                                    key={user}
+                                                    value={user}>{user}
+                                                </option>;
+                                            })
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="form-group">
+                                    <label>Title: </label>
+                                    <input type="text"
+                                        required
+                                        className="form-control"
+                                        value={this.state.title}
+                                        onChange={this.onChangeTitle}
+                                    />
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="form-group">
-                        <input type="submit" value="Create task Log" className="btn btn-primary" />
-                    </div>
-                </form>
+
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <div className="form-group">
+                                    <label>Description: </label>
+                                    < textarea type="text" name="description" id="description"
+                                        required class="form-control"
+                                        value={this.state.description} rows="5" onChange={this.onChangeDescription} />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-sm-6">
+                                <div className="form-group">
+                                    <label>Duration (in hours): </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={this.state.duration}
+                                        onChange={this.onChangeDuration}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-sm-3">
+                                <div className="form-group">
+                                    <label>Date: </label>
+                                    <div style={{ width: "100%", display: "block" }}>
+                                        <DatePicker
+                                            selected={this.state.date}
+                                            onChange={this.onChangeDate}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-sm-3">
+                                <div className="form-group">
+                                    <label>Status: </label>
+                                    <select class="form-control">
+                                        <option value="Not Started">Not Started</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="In Review">In Review</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-sm-12" style={{ textAlign: "center", marginTop: "50px" }}>
+                                <div className="form-group">
+                                    <input type="submit" value={this.state.task_id ? "Edit" : "Create"} className="btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div >
             </div >
         )
     }
