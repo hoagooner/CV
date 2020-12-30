@@ -1,5 +1,5 @@
 header{
-    min-height: 70px;
+    min-height: 80px;
     width: 100%;
     overflow: hidden;
     display: flex;
@@ -10,6 +10,7 @@ header{
 }
 header .logo{
     flex: 1;
+    padding-top:20px;
 }
 header a{
     text-transform: uppercase;
@@ -19,6 +20,7 @@ header ul li{
     display: inline-block;
     opacity: 0.7;
     padding: 0 20px;
+    padding-top:10px;
 }
 header ul li:hover{
     opacity: 1;

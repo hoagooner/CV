@@ -29,7 +29,7 @@ function Header() {
     const createBoard = () => {
         return (
             <>
-                <li><Link to="/create_board" style={{ textDecoration: 'none' }}>Create Board</Link></li>
+                <li><Link to="/create_board" style={{ textDecoration: 'none',color:'black' }}>Create Board</Link></li>
             </>
         )
     }
@@ -37,15 +37,18 @@ function Header() {
     const loggedRouter = () => {
         return (
             <>
-                <li><Link to="/" onClick={logoutUser} style={{ textDecoration: 'none' }}>Logout</Link></li>
+                <li><Link to="/" onClick={logoutUser} style={{ textDecoration: 'none',color:'black' }}>Logout</Link></li>
             </>
         )
     }
 
-
-    // const styleMenu = {
-    //     left: menu ? 0 : "-100%"
-    // }
+    const viewUsers = () =>{
+        return(
+            <>
+                <li><Link to="/users" style={{ textDecoration: 'none',color:'black'}}><p>Manage accounts</p></Link></li>
+            </>
+        )
+    }
 
     return (
         <header>
@@ -55,16 +58,17 @@ function Header() {
 
             <div className="logo" style={{float:"left"}}>
                 <h1>
-                    <Link to="/" style={{ textDecoration: 'none' }}>{isAdmin ? 'Admin' : 'Task Tracker'}</Link>
+                    <Link to="/" style={{ textDecoration: 'none' }}>Task Tracker</Link>
                 </h1>
             </div>
 
             <ul style={{float:"right",marginTop:"20px"}}>
 
-                <li>{isLogged ? 'Hi '+ cookies.get('user') ? cookies.get('user').name : '' : ''}</li>
+                <li><p>{isLogged ? 'Hi '+ cookies.get('user') ? cookies.get('user').name : '' : ''}{isAdmin ? ' (admin)' : ''}</p></li>
 
+                <li>{isLogged && createBoard()}</li>
 
-                {isLogged && createBoard()}
+                <li>{isAdmin && viewUsers()}</li>
 
                 {
                     isLogged ? loggedRouter() : <li><Link to="/login" style={{ textDecoration: 'none' }}>Login</Link></li>

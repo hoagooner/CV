@@ -39,6 +39,11 @@ const userCtrl = {
             return res.status(500).json({ msg: err.message })
         }
     },
+    delete: async (req, res) => {
+        Users.findByIdAndDelete(req.query.user_id)
+            .then(() => res.json('User deleted.'))
+            .catch(err => res.status(400).json('Error: ' + err));
+    },
     login: async (req, res) => {
         try {
             const { email, password } = req.body;
@@ -102,7 +107,13 @@ const userCtrl = {
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }
-    }
+    },
+    getUsers: async (req, res) => {
+        console.log("test users")
+        Users.find()
+            .then(users => res.json(users))
+            .catch(err => res.status(400).json('Error: ' + err));
+    },
 }
 
 

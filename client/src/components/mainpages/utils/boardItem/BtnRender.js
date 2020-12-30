@@ -7,7 +7,6 @@ const cookies = new Cookies();
 
 function BtnRender({ board, deleteBoard }) {
     const state = useContext(GlobalState)
-    const addCart = state.userAPI.addCart
     // const user = typeof cookies.get('user') === "undefined" ? '' : cookies.get('user')
 
     return (

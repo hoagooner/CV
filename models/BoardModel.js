@@ -5,6 +5,12 @@ const boardSchema = new mongoose.Schema({
     user_id:{
         type:String
     },
+    // members:[
+    //     {
+    //         user_id:String,
+    //         accepted: Boolean 
+    //     }
+    // ],
     title:{
         type: String,
         trim: true,

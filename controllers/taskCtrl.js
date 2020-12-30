@@ -9,11 +9,19 @@ const taskCtrl = {
     },
     createTask: async (req, res) => {
         try {
-            console.log("abcdef")
-            const { board_id, title, description, duration, date } = req.body;
+            const { board_id, title } = req.body;
+
+            const description = '';
+            const startDate = new Date();
+            const endDate = new Date();
+            const status = "Not Started";
+            const priority = "Medium";
+
+
+
 
             const newTask = new Tasks({
-                board_id, title, description, duration, date
+                board_id, title, description, startDate, endDate, status, priority
             })
 
             await newTask.save()
@@ -34,8 +42,10 @@ const taskCtrl = {
                 task.username = req.body.username;
                 task.title = req.body.title;
                 task.description = req.body.description;
-                task.duration = Number(req.body.duration);
-                task.date = Date.parse(req.body.date);
+                task.startDate = Date.parse(req.body.startDate);
+                task.endDate = Date.parse(req.body.endDate);
+                task.status = req.body.status;
+                task.priority = req.body.priority;
 
                 task.save()
                     .then(() => res.json('Task updated!'))
@@ -47,6 +57,17 @@ const taskCtrl = {
         console.log(req.params.task_id)
         Tasks.findById(req.params.task_id)
             .then(task => res.json(task))
+            .catch(err => res.status(400).json('Error: ' + err));
+    },
+    updateStatusTask: async (req, res) => {
+        Tasks.findById(req.params.task_id)
+            .then(task => {
+                task.status = req.body.status;
+
+                task.save()
+                    .then(() => res.json('Task updated!'))
+                    .catch(err => res.status(400).json('Error: ' + err));
+            })
             .catch(err => res.status(400).json('Error: ' + err));
     },
 }

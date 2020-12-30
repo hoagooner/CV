@@ -51,6 +51,9 @@ button{
 @import url("./components/mainpages/board/board.css");
 
 
+@import url("./components/mainpages/boardDetail/detailBoard.css");
+
+
 /* ----------------- Responsive ------------------ */
 @media (max-width: 820px){
   header .logo{
@@ -60,6 +63,11 @@ button{
   header ul{
    padding: 10px 0;
   }
+}
+
+button:focus{
+  outline:"none";
+  box-shadow:"none";
 }
 @media (max-width: 720px){
   header ul{
@@ -111,6 +119,7 @@ button{
   .filter_menu .sort{
     flex: 1;
   }
+  
   .filter_menu .sort select{
     width: 100%;
     min-width: 290px;

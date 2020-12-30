@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom'
 function BoardItem({ board, deleteBoard }) {
 
     return (
-        <div className="board_card" style={{ display: "inline-block" }}>
-
-            <IconContext.Provider value={{ size: "30px" }}>
+        <div className="board_card" 
+        style={{ display: "inline-block",borderRadius:"10px", border:"1px dotted gray" }}>
+            <IconContext.Provider value={{ size: "25px" }}>
                 <div style={{ float: "right" }}>
                     <Link to={`/edit-board/${board._id}`}>
                     <FaEdit />
@@ -22,9 +22,7 @@ function BoardItem({ board, deleteBoard }) {
                 alt="image" style={{clear:"right"}}/>
             <div className="board_box">
                 <h3 title={board.title}>{board.title}</h3>
-                <p>{board.description}</p>
             </div>
-
             <BtnRender board={board} deleteBoard={deleteBoard} />
         </div>
     )

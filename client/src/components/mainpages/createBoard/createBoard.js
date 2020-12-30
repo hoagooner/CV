@@ -3,6 +3,7 @@ import axios from 'axios'
 import { GlobalState } from '../../../GlobalState'
 import { useHistory, useParams } from 'react-router-dom'
 import Cookies from 'universal-cookie';
+import { FaPlusCircle } from 'react-icons/fa';
 
 const cookies = new Cookies();
 
@@ -18,11 +19,8 @@ function CreateBoard() {
     const [board, setBoard] = useState(initialState)
     const [images, setImages] = useState(false)
 
-
-    const [isAdmin] = state.userAPI.isAdmin
     const [token] = state.token
 
-    const history = useHistory()
     const param = useParams()
 
     const [boards] = state.boardsAPI.boards
@@ -101,7 +99,6 @@ function CreateBoard() {
                 })
             }
             setCallback(!callback)
-            history.push("/")
         } catch (err) {
             alert(err.response.data.msg)
         }
@@ -112,7 +109,7 @@ function CreateBoard() {
     }
     return (
         <div className="row" style={{ marginTop: "50px" }}>
-            <div className="col-sm-4">
+            <div className="col-sm-3">
                 <input type="file" name="file" id="file_up" onChange={handleUpload} />
                 {
                     <div id="file_img" style={styleUpload}>
@@ -122,26 +119,27 @@ function CreateBoard() {
                 }
             </div>
 
-            <div className="col-sm-8">
+            <div className="col-sm-5">
                 <form onSubmit={handleSubmit}>
-                    <div className="row" style={{margin:"20px"}}>
+                    <div className="row" style={{ margin: "20px", fontWeight: "bold" }}>
                         <label htmlFor="title">Title</label>
                         <input type="text" name="title" id="title" required
                             class="form-control"
                             value={board.title} onChange={handleChangeInput} />
                     </div>
 
-                    <div className="row" style={{margin:"20px"}}>
+                    <div className="row" style={{ margin: "20px", fontWeight: "bold" }}>
                         <label htmlFor="description">Description</label>
                         < textarea type="text" name="description" id="description"
                             required class="form-control"
                             value={board.description} rows="5" onChange={handleChangeInput} />
                     </div>
-                    <div className="row" style={{margin:"20px"}}>
+                    <div className="row" style={{ margin: "20px" }}>
                         <button className="btn btn-primary" type="submit">{onEdit ? "Update" : "Create"}</button>
                     </div>
                 </form>
             </div>
+          
         </div>
     )
 }

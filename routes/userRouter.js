@@ -14,6 +14,8 @@ router.get('/infor', auth,  userCtrl.getUser)
 
 router.get('/home', auth, userCtrl.getUser)
 
+router.get('/users',  userCtrl.getUsers)
 
+router.delete('/delete',  userCtrl.delete)
 
 module.exports = router

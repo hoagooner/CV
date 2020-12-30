@@ -12,6 +12,7 @@ router.route('/task/:task_id')
     .put(taskCtrl.updateTask)
     .get(taskCtrl.getTask)
 
-
+    router.route('/task/change-status/:task_id')
+    .put(taskCtrl.updateStatusTask)
 
 module.exports = router;
