@@ -2,15 +2,19 @@ const mongoose = require('mongoose')
 
 
 const boardSchema = new mongoose.Schema({
-    user_id:{
-        type:String
-    },
+    // user_id:{
+    //     type:String
+    // },
     // members:[
     //     {
     //         user_id:String,
     //         accepted: Boolean 
     //     }
     // ],
+    members: {
+        type: Array,
+        default: []
+    },
     title:{
         type: String,
         trim: true,

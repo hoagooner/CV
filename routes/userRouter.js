@@ -14,8 +14,12 @@ router.get('/infor', auth,  userCtrl.getUser)
 
 router.get('/home', auth, userCtrl.getUser)
 
-router.get('/users',  userCtrl.getUsers)
+router.get('/user/:id', userCtrl.findUser)
 
+router.get('/users/:id',  userCtrl.getUsers)
+
+router.post('/user-email',  userCtrl.getUserByEmail)
+        
 router.delete('/delete',  userCtrl.delete)
 
 module.exports = router

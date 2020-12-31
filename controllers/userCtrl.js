@@ -98,6 +98,17 @@ const userCtrl = {
         }
 
     },
+    getUserByEmail: async (req, res) => {
+        try {
+            // console.log("email")
+            const _email = req.body.email
+            const user = await Users.findOne({ email:_email })
+            if (!user) return res.status(400).json({ msg: "User does not exist." })
+            res.json(user)
+        } catch (err) {
+            return res.status(500).json({ msg: err.message })
+        }
+    },
     getUser: async (req, res) => {
         try {
             const user = await Users.findById(req.user.id).select('-password')
@@ -108,8 +119,12 @@ const userCtrl = {
             return res.status(500).json({ msg: err.message })
         }
     },
+    findUser: async (req, res) => {
+        Users.findById(req.params.id)
+            .then(user => res.json(user))
+            .catch(err => res.status(400).json('Error: ' + err));
+    },
     getUsers: async (req, res) => {
-        console.log("test users")
         Users.find()
             .then(users => res.json(users))
             .catch(err => res.status(400).json('Error: ' + err));

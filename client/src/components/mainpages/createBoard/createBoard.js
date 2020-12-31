@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import axios from 'axios'
 import { GlobalState } from '../../../GlobalState'
-import { useHistory, useParams } from 'react-router-dom'
+import { Redirect, useHistory, useParams } from 'react-router-dom'
 import Cookies from 'universal-cookie';
 import { FaPlusCircle } from 'react-icons/fa';
 
@@ -22,7 +22,7 @@ function CreateBoard() {
     const [token] = state.token
 
     const param = useParams()
-
+    const history = useHistory()
     const [boards] = state.boardsAPI.boards
     const [onEdit, setOnEdit] = useState(false)
     const [callback, setCallback] = state.boardsAPI.callback
@@ -99,6 +99,7 @@ function CreateBoard() {
                 })
             }
             setCallback(!callback)
+            history.push("/")
         } catch (err) {
             alert(err.response.data.msg)
         }
